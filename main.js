@@ -2,7 +2,8 @@ var decimal = document.getElementById("decimal");
 var clear = document.getElementById("clear");
 var display = document.getElementById("calculator__display");
 
-var displayValue = "0";
+var refreshArr = "0";
+var displayValue;
 var pendingValue;
 var evalStringArray = [];
 
@@ -11,10 +12,11 @@ var btnOperators = document.getElementsByClassName("btn-operator");
 
 var updateDisplayValue = function (e) {
   var btnText = e.target.innerText;
-  if (displayValue === "0") {
-    displayValue = "";
+  if (refreshArr === "0") {
+    refreshArr = "";
   }
-  displayValue += btnText;
+  refreshArr += btnText;
+  displayValue = refreshArr;
   display.innerText = displayValue;
 };
 
@@ -24,7 +26,7 @@ var performOperation = function (e) {
   switch (operator) {
     case "+":
       pendingValue = displayValue;
-      displayValue = "0";
+      refreshArr = "0";
       display.innerText = displayValue;
       evalStringArray.push(pendingValue);
       evalStringArray.push("+");
@@ -33,27 +35,30 @@ var performOperation = function (e) {
       break;
     case "-":
       pendingValue = displayValue;
-      displayValue = "0";
+      refreshArr = "0";
       display.innerText = displayValue;
       evalStringArray.push(pendingValue);
       evalStringArray.push("-");
       break;
     case "*":
       pendingValue = displayValue;
-      displayValue = "0";
+      refreshArr = "0";
       display.innerText = displayValue;
       evalStringArray.push(pendingValue);
       evalStringArray.push("*");
       break;
     case "/":
       pendingValue = displayValue;
-      displayValue = "0";
+      refreshArr = "0";
       display.innerText = displayValue;
       evalStringArray.push(pendingValue);
       evalStringArray.push("/");
       break;
     case "=":
-      evalStringArray.push(displayValue);
+      evalStringArray.push(refreshArr);
+      console.log(refreshArr);
+      console.log(evalStringArray);
+      refreshArr = displayValue;
       var evaluation = eval(evalStringArray.join(""));
       displayValue = evaluation + "";
       display.innerText = displayValue;
@@ -72,8 +77,8 @@ for (let i = 0; i < btnOperators.length; i++) {
 }
 
 clear.onclick = function () {
-  displayValue = "0";
-  display.innerHTML = displayValue;
+  refreshArr = "0";
+  display.innerHTML = refreshArr;
 };
 
 decimal.onclick = function () {
